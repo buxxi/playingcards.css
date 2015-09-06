@@ -1,19 +1,67 @@
 @black: "rgb(50,50,50)";
 @red: "rgb(250,50,50)";
 
+@card-width: 100px;
+@card-height: 150px;
+
 body {
 	background-color : rgb(50,125,50);
-	div {
+}
+
+h3 {
+	color : white;
+	font-family : "Arial Narrow";
+	font-size : 32px;
+	margin : 10px 5px;
+	text-shadow : 2px 2px 2px black;
+}
+
+.full-suit {
+	clear : both;
+	overflow : hidden;
+	.card {
 		float : left;
-		&:nth-child(13n + 1) {
-			clear : both;
+	}
+}
+
+.horizontal-stack {
+	padding-left : @card-width * 0.8 + 3px;
+	padding-top : @card-height * 0.1;
+	overflow : hidden;
+	clear : both;
+	.card {
+		float : left;
+		position : relative;
+		margin-left : @card-width * -0.8;
+		&:hover {
+			top : @card-height * -0.1;
 		}
 	}
 }
 
+.vertical-stack {
+	padding-top : @card-height * 0.85;
+	overflow : hidden;
+	clear : both;
+	.card {
+		position : relative;
+		margin-top : @card-height * -0.85;
+	}
+}
+
+.deck {
+	padding-top : @card-height;
+	overflow : hidden;
+	clear : both;
+	.card {
+		position : relative;
+		margin-top : -@card-height - 2px;
+	}
+}
+
 .card {
-	width : 100px;
-	height : 150px;
+	width : @card-width;
+	height : @card-height;
 	border : 1px solid black;
 	border-radius : 5px;
 	margin : 2px;
@@ -87,6 +135,14 @@ body {
 
 .regular-10(@suit, @color) {
 	.regular("<text x='30' y='30' text-anchor='middle' font-size='26' fill='@{color}'>@{suit}</text><text x='70' y='30' text-anchor='middle' font-size='26' fill='@{color}'>@{suit}</text><text x='50' y='45' text-anchor='middle' font-size='26' fill='@{color}'>@{suit}</text><text x='30' y='65' text-anchor='middle' font-size='26' fill='@{color}'>@{suit}</text><text x='70' y='65' text-anchor='middle' font-size='26' fill='@{color}'>@{suit}</text><text x='70' y='65' text-anchor='middle' font-size='26' fill='@{color}' transform='rotate(180,50,75)'>@{suit}</text><text x='30' y='65' text-anchor='middle' font-size='26' fill='@{color}' transform='rotate(180,50,75)'>@{suit}</text><text x='50' y='45' text-anchor='middle' font-size='26' fill='@{color}' transform='rotate(180,50,75)'>@{suit}</text><text x='70' y='30' text-anchor='middle' font-size='26' fill='@{color}' transform='rotate(180,50,75)'>@{suit}</text><text x='30' y='30' text-anchor='middle' font-size='26' fill='@{color}' transform='rotate(180,50,75)'>@{suit}</text>");
+}
+
+//All definition of the cards start here
+
+.back {
+	background-color : black;
+	background-position : 5px -2px;
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><rect width='14' height='14' fill='@{black}'/><polygon points='0,7 3.5,0 7,7 3.5,14' fill='@{black}' stroke='@{red}'/><polygon points='6.5,0 14,0 10.5,7 14,14 6.5,14 10.5,7' fill='@{red}'/></svg>");
 }
 
 .spades-2 {
