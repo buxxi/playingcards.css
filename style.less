@@ -1,21 +1,10 @@
-@black: "rgb(50,50,50)";
-@red: "rgb(250,50,50)";
+@black: #323232;
+@red: #FA3232;
+@white: #FFFFFF;
 @font: Helvetica, sans-serif;
 
 @card-width: 100px;
 @card-height: 150px;
-
-body {
-	background-color : rgb(50,125,50);
-}
-
-h3 {
-	color : white;
-	font-family : @font;
-	font-size : 32px;
-	margin : 10px 5px;
-	text-shadow : 2px 2px 2px black;
-}
 
 .full-suit {
 	clear : both;
@@ -67,10 +56,7 @@ h3 {
 	border-radius : 5px;
 	margin : 2px;
 	box-shadow : 2px 2px 5px black;
-	background-color : white;
-}
-
-.corner(@num, @suit, @color) {
+	background-color : @white;
 	&:before, &:after {
 		content : "";
 		position : relative;
@@ -81,7 +67,6 @@ h3 {
 		text-align : center;
 		font-size : 16px;
 		background-size : auto auto;
-		background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 64'><text x='14' y='32' text-anchor='middle' font-size='24' font-family='@{font}' fill='@{color}'>@{num}</text><text x='14' y='60' font-size='28' font-family='@{font}' text-anchor='middle' fill='@{color}'>@{suit}</text></svg>");
 	}
 	&:after {
 		transform : rotate(180deg);
@@ -90,14 +75,25 @@ h3 {
 	}
 }
 
+.svg-background(@input) {
+	@data: escape(@input);
+	background-image: url("data:image/svg+xml;charset=utf8,@{data}");	
+}
+
+.corner(@num, @suit, @color) {
+	&:before, &:after {
+		.svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 64'><text x='14' y='32' text-anchor='middle' font-size='24' font-family='@{font}' fill='@{color}'>@{num}</text><text x='14' y='60' font-size='28' font-family='@{font}' text-anchor='middle' fill='@{color}'>@{suit}</text></svg>");
+	}
+}
+
 .suited(@suit, @color, @stroke: 1) {
-	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cy='16' cx='16' r='12' fill='@{color}'/><text x='16' y='23' text-anchor='middle' font-size='20' font-family='@{font}' fill='white' stroke-width='@{stroke}px' stroke='@{color}'>@{suit}</text></svg>");
+	.svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cy='16' cx='16' r='12' fill='@{color}'/><circle cy='16' cx='16' r='11' fill='@{color}' stroke='@{white}' stroke-width='0.5px'/><text x='16' y='23' text-anchor='middle' font-size='20' font-family='@{font}' fill='@{white}' stroke-width='@{stroke}px' stroke='@{color}'>@{suit}</text></svg>");
 	background-position : left center;
 	background-repeat : no-repeat;	
 }
 
 .regular(@data) {
-	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150'>@{data}</svg>");
+	.svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150'>@{data}</svg>");
 	background-position : left center;
 	background-repeat : no-repeat;		
 }
@@ -143,265 +139,272 @@ h3 {
 .back {
 	background-color : black;
 	background-position : 5px -2px;
-	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><rect width='14' height='14' fill='@{black}'/><polygon points='0,7 3.5,0 7,7 3.5,14' fill='@{black}' stroke='@{red}'/><polygon points='6.5,0 14,0 10.5,7 14,14 6.5,14 10.5,7' fill='@{red}'/></svg>");
+	.svg-background("<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><rect width='14' height='14' fill='@{black}'/><polygon points='0,7 3.5,0 7,7 3.5,14' fill='@{black}' stroke='@{red}'/><polygon points='6.5,0 14,0 10.5,7 14,14 6.5,14 10.5,7' fill='@{red}'/></svg>");
+}
+
+.joker {
+	.corner("?", "&#9733;", @black);
+	.svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cy='16' cx='16' r='12' fill='@{black}'/><circle cy='16' cx='16' r='11' fill='@{white}' stroke='@{red}' stroke-width='0.5px'/><text x='16' y='14' transform='rotate(45,16,16)' text-anchor='middle' font-size='12' font-family='@{font}' fill='@{black}'>&#x2660;</text><text x='16' y='14' transform='rotate(135,16,16)' text-anchor='middle' font-size='12' font-family='@{font}' fill='@{red}'>&#x2666;</text><text x='16' y='14' transform='rotate(225,16,16)' text-anchor='middle' font-size='12' font-family='@{font}' fill='@{black}'>&#x2663;</text><text x='16' y='14' transform='rotate(315,16,16)' text-anchor='middle' font-size='10' font-family='@{font}' fill='@{red}'>&#x2665;</text></svg>");
+	background-position : left center;
+	background-repeat : no-repeat;	
 }
 
 .spades-2 {
-	.corner("2", "\2660", @black);
-	.regular-2("\2660", @black);
+	.corner("2", "&#x2660;", @black);
+	.regular-2("&#x2660;", @black);
 }
 
 .spades-3 {
-	.corner("3", "\2660", @black);
-	.regular-3("\2660", @black);
+	.corner("3", "&#x2660;", @black);
+	.regular-3("&#x2660;", @black);
 }
 
 .spades-4 {
-	.corner("4", "\2660", @black);
-	.regular-4("\2660", @black);
+	.corner("4", "&#x2660;", @black);
+	.regular-4("&#x2660;", @black);
 }
 
 .spades-5 {
-	.corner("5", "\2660", @black);
-	.regular-5("\2660", @black);
+	.corner("5", "&#x2660;", @black);
+	.regular-5("&#x2660;", @black);
 }
 
 .spades-6 {
-	.corner("6", "\2660", @black);
-	.regular-6("\2660", @black);
+	.corner("6", "&#x2660;", @black);
+	.regular-6("&#x2660;", @black);
 }
 
 .spades-7 {
-	.corner("7", "\2660", @black);
-	.regular-7("\2660", @black);
+	.corner("7", "&#x2660;", @black);
+	.regular-7("&#x2660;", @black);
 }
 
 .spades-8 {
-	.corner("8", "\2660", @black);
-	.regular-8("\2660", @black);
+	.corner("8", "&#x2660;", @black);
+	.regular-8("&#x2660;", @black);
 }
 
 .spades-9 {
-	.corner("9", "\2660", @black);
-	.regular-9("\2660", @black);
+	.corner("9", "&#x2660;", @black);
+	.regular-9("&#x2660;", @black);
 }
 
 .spades-10 {
-	.corner("10", "\2660", @black);
-	.regular-10("\2660", @black);
+	.corner("10", "&#x2660;", @black);
+	.regular-10("&#x2660;", @black);
 }
 
 .spades-J {
-	.corner("J", "\2660", @black);
+	.corner("J", "&#x2660;", @black);
 	.suited("J", @black);
 }
 
 .spades-Q {
-	.corner("Q", "\2660", @black);
+	.corner("Q", "&#x2660;", @black);
 	.suited("Q", @black);
 }
 
 .spades-K {
-	.corner("K", "\2660", @black);
+	.corner("K", "&#x2660;", @black);
 	.suited("K", @black);
 }
 
 .spades-A {
-	.corner("A", "\2660", @black);
-	.suited("\2660", @black, 0);
+	.corner("A", "&#x2660;", @black);
+	.suited("&#x2660;", @black, 0);
 }
 
 .clubs-2 {
-	.corner("2", "\2663", @black);
-	.regular-2("\2663", @black);
+	.corner("2", "&#x2663;", @black);
+	.regular-2("&#x2663;", @black);
 }
 
 .clubs-3 {
-	.corner("3", "\2663", @black);
-	.regular-3("\2663", @black);
+	.corner("3", "&#x2663;", @black);
+	.regular-3("&#x2663;", @black);
 }
 
 .clubs-4 {
-	.corner("4", "\2663", @black);
-	.regular-4("\2663", @black);
+	.corner("4", "&#x2663;", @black);
+	.regular-4("&#x2663;", @black);
 }
 
 .clubs-5 {
-	.corner("5", "\2663", @black);
-	.regular-5("\2663", @black);
+	.corner("5", "&#x2663;", @black);
+	.regular-5("&#x2663;", @black);
 }
 
 .clubs-6 {
-	.corner("6", "\2663", @black);
-	.regular-6("\2663", @black);
+	.corner("6", "&#x2663;", @black);
+	.regular-6("&#x2663;", @black);
 }
 
 .clubs-7 {
-	.corner("7", "\2663", @black);
-	.regular-7("\2663", @black);
+	.corner("7", "&#x2663;", @black);
+	.regular-7("&#x2663;", @black);
 }
 
 .clubs-8 {
-	.corner("8", "\2663", @black);
-	.regular-8("\2663", @black);
+	.corner("8", "&#x2663;", @black);
+	.regular-8("&#x2663;", @black);
 }
 
 .clubs-9 {
-	.corner("9", "\2663", @black);
-	.regular-9("\2663", @black);
+	.corner("9", "&#x2663;", @black);
+	.regular-9("&#x2663;", @black);
 }
 
 .clubs-10 {
-	.corner("10", "\2663", @black);
-	.regular-10("\2663", @black);
+	.corner("10", "&#x2663;", @black);
+	.regular-10("&#x2663;", @black);
 }
 
 .clubs-J {
-	.corner("J", "\2663", @black);
+	.corner("J", "&#x2663;", @black);
 	.suited("J", @black);
 }
 
 .clubs-Q {
-	.corner("Q", "\2663", @black);
+	.corner("Q", "&#x2663;", @black);
 	.suited("Q", @black);
 }
 
 .clubs-K {
-	.corner("K", "\2663", @black);
+	.corner("K", "&#x2663;", @black);
 	.suited("K", @black);
 }
 
 .clubs-A {
-	.corner("A", "\2663", @black);
-	.suited("\2663", @black, 0);
+	.corner("A", "&#x2663;", @black);
+	.suited("&#x2663;", @black, 0);
 }
 
 .hearts-2 {
-	.corner("2", "\2665", @red);
-	.regular-2("\2665", @red);
+	.corner("2", "&#x2665;", @red);
+	.regular-2("&#x2665;", @red);
 }
 
 .hearts-3 {
-	.corner("3", "\2665", @red);
-	.regular-3("\2665", @red);
+	.corner("3", "&#x2665;", @red);
+	.regular-3("&#x2665;", @red);
 }
 
 .hearts-4 {
-	.corner("4", "\2665", @red);
-	.regular-4("\2665", @red);
+	.corner("4", "&#x2665;", @red);
+	.regular-4("&#x2665;", @red);
 }
 
 .hearts-5 {
-	.corner("5", "\2665", @red);
-	.regular-5("\2665", @red);
+	.corner("5", "&#x2665;", @red);
+	.regular-5("&#x2665;", @red);
 }
 
 .hearts-6 {
-	.corner("6", "\2665", @red);
-	.regular-6("\2665", @red);
+	.corner("6", "&#x2665;", @red);
+	.regular-6("&#x2665;", @red);
 }
 
 .hearts-7 {
-	.corner("7", "\2665", @red);
-	.regular-7("\2665", @red);
+	.corner("7", "&#x2665;", @red);
+	.regular-7("&#x2665;", @red);
 }
 
 .hearts-8 {
-	.corner("8", "\2665", @red);
-	.regular-8("\2665", @red);
+	.corner("8", "&#x2665;", @red);
+	.regular-8("&#x2665;", @red);
 }
 
 .hearts-9 {
-	.corner("9", "\2665", @red);
-	.regular-9("\2665", @red);
+	.corner("9", "&#x2665;", @red);
+	.regular-9("&#x2665;", @red);
 }
 
 .hearts-10 {
-	.corner("10", "\2665", @red);
-	.regular-10("\2665", @red);
+	.corner("10", "&#x2665;", @red);
+	.regular-10("&#x2665;", @red);
 }
 
 .hearts-J {
-	.corner("J", "\2665", @red);
+	.corner("J", "&#x2665;", @red);
 	.suited("J", @red);
 }
 
 .hearts-Q {
-	.corner("Q", "\2665", @red);
+	.corner("Q", "&#x2665;", @red);
 	.suited("Q", @red);
 }
 
 .hearts-K {
-	.corner("K", "\2665", @red);
+	.corner("K", "&#x2665;", @red);
 	.suited("K", @red);
 }
 
 .hearts-A {
-	.corner("A", "\2665", @red);
-	.suited("\2665", @red, 0);
+	.corner("A", "&#x2665;", @red);
+	.suited("&#x2665;", @red, 0);
 }
 
 .diamonds-2 {
-	.corner("2", "\2666", @red);
-	.regular-2("\2666", @red);
+	.corner("2", "&#x2666;", @red);
+	.regular-2("&#x2666;", @red);
 }
 
 .diamonds-3 {
-	.corner("3", "\2666", @red);
-	.regular-3("\2666", @red);
+	.corner("3", "&#x2666;", @red);
+	.regular-3("&#x2666;", @red);
 }
 
 .diamonds-4 {
-	.corner("4", "\2666", @red);
-	.regular-4("\2666", @red);
+	.corner("4", "&#x2666;", @red);
+	.regular-4("&#x2666;", @red);
 }
 
 .diamonds-5 {
-	.corner("5", "\2666", @red);
-	.regular-5("\2666", @red);
+	.corner("5", "&#x2666;", @red);
+	.regular-5("&#x2666;", @red);
 }
 
 .diamonds-6 {
-	.corner("6", "\2666", @red);
-	.regular-6("\2666", @red);
+	.corner("6", "&#x2666;", @red);
+	.regular-6("&#x2666;", @red);
 }
 
 .diamonds-7 {
-	.corner("7", "\2666", @red);
-	.regular-7("\2666", @red);
+	.corner("7", "&#x2666;", @red);
+	.regular-7("&#x2666;", @red);
 }
 
 .diamonds-8 {
-	.corner("8", "\2666", @red);
-	.regular-8("\2666", @red);
+	.corner("8", "&#x2666;", @red);
+	.regular-8("&#x2666;", @red);
 }
 
 .diamonds-9 {
-	.corner("9", "\2666", @red);
-	.regular-9("\2666", @red);
+	.corner("9", "&#x2666;", @red);
+	.regular-9("&#x2666;", @red);
 }
 
 .diamonds-10 {
-	.corner("10", "\2666", @red);
-	.regular-10("\2666", @red);
+	.corner("10", "&#x2666;", @red);
+	.regular-10("&#x2666;", @red);
 }
 
 .diamonds-J {
-	.corner("J", "\2666", @red);
+	.corner("J", "&#x2666;", @red);
 	.suited("J", @red);
 }
 
 .diamonds-Q {
-	.corner("Q", "\2666", @red);
+	.corner("Q", "&#x2666;", @red);
 	.suited("Q", @red);
 }
 
 .diamonds-K {
-	.corner("K", "\2666", @red);
+	.corner("K", "&#x2666;", @red);
 	.suited("K", @red);
 }
 
 .diamonds-A {
-	.corner("A", "\2666", @red);
-	.suited("\2666", @red, 0);
+	.corner("A", "&#x2666;", @red);
+	.suited("&#x2666;", @red, 0);
 }
