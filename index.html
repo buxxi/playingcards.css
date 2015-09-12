@@ -16,13 +16,14 @@
 				text-shadow : 2px 2px 2px black;
 			}
 
-			.col-3 {
+			.col-4 {
 				clear : both;
 				overflow : hidden;
 			}
-			.col-3 > div {
+			.col-4 > div {
 				float : left;
-				width : 33.3%;
+				width : auto;
+                margin-right : 50px;
 			}
 		</style>
 	</head>
@@ -76,6 +77,7 @@
 			<div class="card diamonds-Q"></div>
 			<div class="card diamonds-K"></div>
 			<div class="card diamonds-A"></div>
+			<div class="card placeholder"></div>
 		</div>
 
 		<div class="full-suit">
@@ -94,7 +96,7 @@
 			<div class="card clubs-A"></div>
 		</div>
 
-		<div class="col-3">
+		<div class="col-4">
 			<div>
 				<h3>Horizontal stack</h3>
 				<div class="horizontal-stack">
@@ -124,6 +126,39 @@
 					<div class="card clubs-10"></div>
 				</div>
 			</div>
+            <div>
+                <h3>Drag and Drop (with JavaScript)</h3>
+                <script type="text/javascript">
+                    function index(elem) {
+                        return Array.prototype.indexOf.call(elem.parentNode.children, elem);      
+                    }
+                    
+                    function drag(event, elem) {
+                        event.dataTransfer.setData('index', index(elem));        
+                    }
+                    
+                    function drop(event, target) {
+                        target.classList.remove('droppable');
+                        var source = target.parentNode.children[event.dataTransfer.getData('index')];
+                        target.parentNode.insertBefore(source, index(target) > index(source) ? target.nextSibling : target);
+                    }
+                    
+                    function dragover(event, elem) {
+                        elem.classList.add('droppable'); 
+                        event.preventDefault();    
+                    }
+                    
+                    function dragleave(event, elem) {
+                       elem.classList.remove('droppable'); 
+                    }
+                </script>
+                <div class="full-suit">
+                    <div draggable="true" ondragstart="drag(event, this)" class="card diamonds-8"></div>
+                    <div class="card placeholder" ondrop="drop(event, this)" ondragover="dragover(event, this)" ondragleave="dragleave(event, this)"></div>
+                    <div class="card placeholder" ondrop="drop(event, this)" ondragover="dragover(event, this)" ondragleave="dragleave(event, this)"></div>
+                    <div class="card placeholder" ondrop="drop(event, this)" ondragover="dragover(event, this)" ondragleave="dragleave(event, this)"></div>
+                </div>
+            </div>
 		</div>
 	</body>
 </html>

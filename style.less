@@ -73,6 +73,23 @@
 		top : 40%;
 		left : 75%;
 	}
+    &[draggable=true] {
+        cursor : pointer;   
+    }
+}
+
+.placeholder {
+    background-color : transparent;
+    box-shadow : none;
+    border : 10px solid @black;
+    box-sizing: border-box;
+    margin : 3px;
+    opacity : 0.3;
+    .suited("&#11015;", @black, 0);
+    &.droppable {
+        border : 10px solid @red;  
+        opacity : 0.6;
+    }
 }
 
 .svg-background(@input) {
