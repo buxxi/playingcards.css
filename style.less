@@ -9,6 +9,7 @@
 .full-suit {
 	clear : both;
 	overflow : hidden;
+    display : inline-block;
 	.card {
 		float : left;
 	}
@@ -99,7 +100,7 @@
 
 .corner(@num, @suit, @color) {
 	&:before, &:after {
-		.svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 64'><text x='14' y='32' text-anchor='middle' font-size='24' font-family='@{font}' fill='@{color}'>@{num}</text><text x='14' y='60' font-size='28' font-family='@{font}' text-anchor='middle' fill='@{color}'>@{suit}</text></svg>");
+		.svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 64'><text x='14' y='32' text-anchor='middle' font-size='24' font-family='@{font}' fill='@{color}'>@{num}</text><text x='14' y='60' font-size='30' font-family='@{font}' text-anchor='middle' fill='@{color}'>@{suit}</text></svg>");
 	}
 }
 
@@ -154,9 +155,13 @@
 //All definition of the cards start here
 
 .back {
-	background-color : black;
-	background-position : 5px -2px;
-	.svg-background("<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><rect width='14' height='14' fill='@{black}'/><polygon points='0,7 3.5,0 7,7 3.5,14' fill='@{black}' stroke='@{red}'/><polygon points='6.5,0 14,0 10.5,7 14,14 6.5,14 10.5,7' fill='@{red}'/></svg>");
+	background-color : black !important;
+	background-position : 5px -2px !important;
+    background-repeat : repeat !important;
+	.svg-background("<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><rect width='14' height='14' fill='@{black}'/><polygon points='0,7 3.5,0 7,7 3.5,14' fill='@{black}' stroke='@{red}'/><polygon points='6.5,0 14,0 10.5,7 14,14 6.5,14 10.5,7' fill='@{red}'/></svg>") !important;
+    &:before, &:after {
+        display : none;    
+    }
 }
 
 .joker {
